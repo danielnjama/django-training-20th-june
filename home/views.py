@@ -15,7 +15,7 @@ def courses(request):
 
 
 def teachers(request):
-    return HttpResponse("This is the teachers page!")
+    return render(request,'teacher.html')
 
 
 def contacts(request):
