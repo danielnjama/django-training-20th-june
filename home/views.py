@@ -1,5 +1,6 @@
 from django.shortcuts import render,HttpResponse
-
+from . models import Course, Subjects
+from django.db import models
 # Create your views here.
 def index(request):
     
@@ -11,7 +12,14 @@ def about(request):
 
 
 def courses(request):
-    return render(request,'course.html')
+    all_courses = Course.objects.all()
+    # all_subjects = Subjects.objects.all()
+    all_subjects = Subjects.objects.annotate(course_count=models.Count('course'))
+    
+    context = {"allcourses":all_courses,"allsubjects":all_subjects}
+    
+    
+    return render(request,'course.html',context)
 
 
 def teachers(request):

@@ -7,15 +7,25 @@ class Subjects(models.Model):
     subjectname = models.CharField(max_length=50)
     subjectImage = models.ImageField(upload_to='subectimages')
     
+    def __str__(self):
+        return self.subjectname
+    
+    class Meta:
+        verbose_name = "Subjects"
+        verbose_name_plural = "Subjects"
+    
     
 
 
 class Course(models.Model):
-    courseSubject = models.ForeignKey(Subjects,on_delete=models.CASCADE,related_name="course")
-    courseImage = models.ImageField(upload_to='subectimages',help_text="image size 100 by 100")
-    courseName = models.CharField(max_length=100)
-    coursePrice = models.PositiveIntegerField(help_text="Enter price in dollars")
-    courseDuration = models.DurationField(default=timedelta(hours=5,minutes=20))
+    courseSubject = models.ForeignKey(Subjects,on_delete=models.CASCADE,related_name="course",verbose_name="Course Subject")
+    courseImage = models.ImageField(upload_to='subectimages',help_text="image size 100 by 100",verbose_name="Course Image")
+    courseName = models.CharField(max_length=100,verbose_name="Course Name")
+    coursePrice = models.PositiveIntegerField(help_text="Enter price in dollars",verbose_name="Course Price")
+    courseDuration = models.DurationField(default=timedelta(hours=5,minutes=20),verbose_name="Course Duration")
+    
+    def __str__(self):
+        return self.courseName
 
 
 
