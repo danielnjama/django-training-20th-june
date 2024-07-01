@@ -28,3 +28,6 @@ def teachers(request):
 
 def contacts(request):
     return render(request,'contact.html')
+
+def blog(request):
+    return render(request,'blog.html')

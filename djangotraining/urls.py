@@ -18,13 +18,14 @@ from django.views.static import serve
 # from django.views.generic import RedirectView
 
 
-# admin.site.site_header="Dtech Website"
-# admin.site.site_title="Dtech Website"
-# admin.site.index_title="Dtech Website"
+admin.site.site_header="Django training"
+admin.site.site_title="Django training"
+admin.site.index_title="Django training"
 
 urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('',include("home.urls")),
+    path('',include("blogapp.urls")),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
     
