@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
 
     {% block title %}
-    <title>ECOURSES - Online Courses HTML Template</title>
+    <title>{{post.title}} | Dtech</title>
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
     {% endblock title %}
@@ -53,29 +54,7 @@
                                 <button class="btn btn-sm btn-secondary">Reply</button>
                             </div>
                         </div>
-                        <div class="media mb-4">
-                            <img src="img/user.jpg" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
-                                style="width: 45px;">
-                            <div class="media-body">
-                                <h6>John Doe <small><i>01 Jan 2045 at 12:00pm</i></small></h6>
-                                <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at.
-                                    Kasd diam tempor rebum magna dolores sed sed eirmod ipsum. Gubergren clita aliquyam
-                                    consetetur sadipscing, at tempor amet ipsum diam tempor consetetur at sit.</p>
-                                <button class="btn btn-sm btn-secondary">Reply</button>
-                                <div class="media mt-4">
-                                    <img src="img/user.jpg" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
-                                        style="width: 45px;">
-                                    <div class="media-body">
-                                        <h6>John Doe <small><i>01 Jan 2045 at 12:00pm</i></small></h6>
-                                        <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum
-                                            et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.
-                                            Gubergren clita aliquyam consetetur, at tempor amet ipsum diam tempor at
-                                            sit.</p>
-                                        <button class="btn btn-sm btn-secondary">Reply</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <!-- Comment Form -->
@@ -90,10 +69,7 @@
                                 <label for="email">Email *</label>
                                 <input type="email" class="form-control border-0" id="email">
                             </div>
-                            <div class="form-group">
-                                <label for="website">Website</label>
-                                <input type="url" class="form-control border-0" id="website">
-                            </div>
+                            
 
                             <div class="form-group">
                                 <label for="message">Message *</label>
@@ -109,18 +85,17 @@
                 <div class="col-lg-4 mt-5 mt-lg-0">
                     <!-- Author Bio -->
                     <div class="d-flex flex-column text-center bg-dark rounded mb-5 py-5 px-4">
-                        <img src="img/user.jpg" class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
+                        <img src="{% static "img/user.jpg" %}" class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
                         <h3 class="text-primary mb-3">John Doe</h3>
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
-                        <p class="text-white m-0">Conset elitr erat vero dolor ipsum et diam, eos dolor lorem, ipsum sit
-                            no ut est ipsum erat kasd amet elitr</p>
+                        <p class="text-white m-0">Conset elitr erat vero dolor ipsum et diam, eos dolor lorem, ipsum sit no ut est  ipsum erat kasd amet elitr</p>
                     </div>
-
+    
                     <!-- Search Form -->
                     <div class="mb-5">
-                        <form action="">
+                        <form method="get" action="{% url 'blog_search' %}">
                             <div class="input-group">
-                                <input type="text" class="form-control form-control-lg" placeholder="Keyword">
+                                <input type="text" name="q" class="form-control form-control-lg" placeholder="Keyword" required/>
                                 <div class="input-group-append">
                                     <span class="input-group-text bg-transparent text-primary"><i
                                             class="fa fa-search"></i></span>
@@ -128,70 +103,53 @@
                             </div>
                         </form>
                     </div>
-
+    
                     <!-- Category List -->
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Categories</h3>
                         <ul class="list-group list-group-flush">
+                            {% if blog_categories %}
+                            {% for blog_category in blog_categories %}
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Web Design</a>
-                                <span class="badge badge-primary badge-pill">150</span>
+                                <a href="{% url "post_list_by_category" blog_category.url %}" class="text-decoration-none h6 m-0">{{blog_category.name}}</a>
+                                <span class="badge badge-primary badge-pill">{{blog_category.blog_count}}</span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Web Development</a>
-                                <span class="badge badge-primary badge-pill">131</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Online Marketing</a>
-                                <span class="badge badge-primary badge-pill">78</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Keyword Research</a>
-                                <span class="badge badge-primary badge-pill">56</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Email Marketing</a>
-                                <span class="badge badge-primary badge-pill">98</span>
-                            </li>
+                            {% endfor %}
+                            {% else %}
+                            <p> No Categories </p>
+                            {% endif %}
                         </ul>
                     </div>
-
+    
                     <!-- Recent Post -->
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h3>
-                        <a class="d-flex align-items-center text-decoration-none mb-3" href="">
-                            <img class="img-fluid rounded" src="img/blog-80x80.jpg" alt="">
+                        {% if recent_blogs %}
+                        {% for recent_blog in recent_blogs %}
+                        <a class="d-flex align-items-center text-decoration-none mb-3" href="{% url "blog_details" recent_blog.url %}">
+                            <img class="img-fluid rounded" width="50px" height="50px" src="{{recent_blog.image.url}}" alt="{{recent_blog.title}}">
                             <div class="pl-3">
-                                <h6 class="m-1">Diam lorem dolore justo eirmod lorem dolore</h6>
-                                <small>Jan 01, 2050</small>
+                                <h6 class="m-1">{{recent_blog.title}}</h6>
+                                <small>{{recent_blog.created_at}}</small>
                             </div>
                         </a>
-                        <a class="d-flex align-items-center text-decoration-none mb-3" href="">
-                            <img class="img-fluid rounded" src="img/blog-80x80.jpg" alt="">
-                            <div class="pl-3">
-                                <h6 class="m-1">Diam lorem dolore justo eirmod lorem dolore</h6>
-                                <small>Jan 01, 2050</small>
-                            </div>
-                        </a>
-                        <a class="d-flex align-items-center text-decoration-none mb-3" href="">
-                            <img class="img-fluid rounded" src="img/blog-80x80.jpg" alt="">
-                            <div class="pl-3">
-                                <h6 class="m-1">Diam lorem dolore justo eirmod lorem dolore</h6>
-                                <small>Jan 01, 2050</small>
-                            </div>
-                        </a>
+                        {% endfor %}
+                       {% else %}
+                       <p> No posts at the moment</p>
+                       {% endif %}
                     </div>
-
+    
                     <!-- Tag Cloud -->
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
                         <div class="d-flex flex-wrap m-n1">
-                            <a href="" class="btn btn-outline-primary m-1">Design</a>
-                            <a href="" class="btn btn-outline-primary m-1">Development</a>
-                            <a href="" class="btn btn-outline-primary m-1">Marketing</a>
-                            <a href="" class="btn btn-outline-primary m-1">SEO</a>
-                            <a href="" class="btn btn-outline-primary m-1">Writing</a>
-                            <a href="" class="btn btn-outline-primary m-1">Consulting</a>
+                            {% if blog_tags %}
+                            {% for blog_tag in blog_tags %}
+                            <a href="{% url "post_list_by_tags" blog_tag.url %}" class="btn btn-outline-primary m-1">{{blog_tag.name}}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p> No tags </p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
