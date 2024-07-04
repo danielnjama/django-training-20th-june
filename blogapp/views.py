@@ -1,7 +1,8 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from blogapp.models import Post,Category,Tags
+from blogapp.models import Post,Category,Tags,Comment
 from django.db import models
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 # Create your views here.
 def blog(request):
@@ -10,14 +11,23 @@ def blog(request):
     #blog categories
     blog_categories = Category.objects.annotate(blog_count=models.Count('post'))
     
-    
     #recent blogs
     recent_blogs = Post.objects.order_by('-created_at')[:3]
-    
     
     #tags
     blog_tags = Tags.objects.all()
     
+    #paginations
+    paginator_instance = Paginator(blogposts,2)
+    
+    page = request.GET.get('page')
+    
+    try:
+        blogposts = paginator_instance.page(page)
+    except PageNotAnInteger:
+        blogposts = paginator_instance.page(1)
+    except EmptyPage:
+        blogposts = paginator_instance.page(paginator_instance.num_pages)
     context = {
         'blogposts':blogposts,
         'blog_categories':blog_categories,
@@ -40,13 +50,40 @@ def blog_details(request,url):
     
     #tags
     blog_tags = Tags.objects.all()
+    
+    #comments
+    comments = post.comments.filter(approved=True)
+    
+    
+    
     context = {
         "post":post,
         'blog_categories':blog_categories,
         'recent_blogs':recent_blogs,
-        'blog_tags':blog_tags
+        'blog_tags':blog_tags,
+        'comments':comments
         }
     return render(request,'single.html',context)
+
+
+
+def postcomment(request):
+    
+    #comment
+    if request.method =="POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+        url = request.POST['url']
+        
+        # comment = Comment(post=post,name=name,email=email,message=message)
+        # comment.save()
+        post = get_object_or_404(Post,url=url)
+        comment = Comment.objects.create(post=post,name=name,email=email,message=message)
+        return JsonResponse({'message':'Comment successfully saved!'})
+        
+    #end of comment
+    
 
 
 

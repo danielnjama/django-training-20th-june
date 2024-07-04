@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render,HttpResponse
 from . models import Course, Subjects
 from django.db import models
@@ -29,5 +30,8 @@ def teachers(request):
 def contacts(request):
     return render(request,'contact.html')
 
-def blog(request):
-    return render(request,'blog.html')
+def get_subjects(request):
+    all_subjects = Subjects.objects.all().values()
+    all_subjects_list =list(all_subjects)
+    return JsonResponse({'subjects':all_subjects_list})
+    
