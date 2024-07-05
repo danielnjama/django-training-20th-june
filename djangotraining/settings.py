@@ -119,3 +119,16 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
+#EMAIL_BACKEND = 'django_ses.SESBackend'
+
+EMAIL_HOST = 'rbx115.truehost.cloud'
+EMAIL_HOST_USER = 'test@dtechnologys.com'
+EMAIL_HOST_PASSWORD = '!GN,!u+(PL#{'
+
+
+DEFAULT_FROM_EMAIL = ""
+EMAIL_PORT =587 #465
+EMAIL_USE_TLS = False
