@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'ckeditor',
+    "silk",
     'home',
     'blogapp',
 ]
@@ -40,7 +41,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+if DEBUG:
+    MIDDLEWARE += ["silk.middleware.SilkyMiddleware"]
 ROOT_URLCONF = 'djangotraining.urls'
 
 TEMPLATES = [
