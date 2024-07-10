@@ -63,50 +63,7 @@ def get_subjects(request):
     return JsonResponse({'subjects':all_subjects_list})
 
 
-def login(request):
-    if not request.user.is_authenticated:
-        if request.method == "POST":
-            username  = request.POST['username']
-            password = request.POST['password']
-            user = auth.authenticate(username=username,password=password)
-            if user is not None:
-                auth.login(request,user)
-                if request.GET.get('next',None):
-                    return HttpResponseRedirect(request.GET['next'])
-                return redirect('/')
-            messages.warning(request,'Invalid login details')
-            return render(request,'login.html')
-            
-        return render(request,'login.html')
-    return redirect('/')
-
-def register(request):
-    if request.method =="POST":
-        first_name = request.POST['first_name'] #first_name = request.POST.get('first_name')
-        username  = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        password2 = request.POST['password2']
-        
-        if password == password2:
-            if User.objects.filter(username=username).exists():
-                messages.warning(request,'Username taken!')
-                return render(request,'register.html')
-            elif User.objects.filter(email=email).exists():
-                messages.warning(request,'Taken taken!')
-                return render(request,'register.html')
-            else:
-                user = User.objects.create_user(username=username,first_name=first_name,email=email,password=password)
-                messages.info(request,'User created!')
-                return redirect('login')
-        messages.warning(request,'Password mismatch!')
-        return render(request,'register.html')        
-        
-        
-    return render(request,'register.html')
 
 
-def logout(request):
-    auth.logout(request)
-    return redirect('/')
+
     

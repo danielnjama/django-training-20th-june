@@ -29,7 +29,12 @@ INSTALLED_APPS = [
     'ckeditor',
     'home',
     'blogapp',
+    'usermodels',
+
 ]
+
+AUTH_USER_MODEL ='usermodels.CustomUser'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,6 +76,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation
